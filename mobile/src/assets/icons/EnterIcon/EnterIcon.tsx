@@ -20,15 +20,15 @@ const EnterIcon = ({
           maskUnits="userSpaceOnUse"
           x="0"
           y="0"
-          width={parentWidth}
-          height={parentHeight}>
+          width={parentWidth + 4}
+          height={parentHeight + 4}>
           <Path d="M24 0H0V24H24V0Z" fill="white" />
         </Mask>
         <G mask="url(#mask0_4_619)">
           <Path
             d="M9 4.00018H19V18.0002C19 19.1048 18.1046 20.0002 17 20.0002H9"
             stroke={strokeColor}
-            strokeWidth={strokeWidth}
+            strokeWidth={2}
             strokeLinecap="round"
             strokeLinejoin="round"
           />

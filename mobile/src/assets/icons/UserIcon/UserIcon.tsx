@@ -1,12 +1,12 @@
 import React from 'react';
 import Svg, {Path} from 'react-native-svg';
-import {IIcon} from '../IIcon.ts';
+import {IIcon, PartialIcon} from '../IIcon.ts';
 
 const UserIcon = ({
   parentWidth = 16,
   parentHeight = 16,
   fill = '#000',
-}: IIcon) => {
+}: PartialIcon) => {
   return (
     <Svg
       width={parentWidth}
