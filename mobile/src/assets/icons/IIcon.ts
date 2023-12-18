@@ -1,6 +1,5 @@
 export interface IIcon {
-  parentWidth: number;
-  parentHeight: number;
+  size: number;
   fill: string;
   strokeColor: string;
   strokeWidth: number;

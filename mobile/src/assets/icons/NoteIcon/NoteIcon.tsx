@@ -3,25 +3,18 @@ import Svg, {Path} from 'react-native-svg';
 import {PartialIcon} from '../IIcon.ts';
 
 interface INoteIcon extends PartialIcon {
-  parentWidth: number;
-  parentHeight: number;
   backgroundCardOpacity?: number;
   isAdd?: boolean;
 }
 
 const NoteIcon = ({
-  parentWidth,
-  parentHeight,
+  size = 16,
   backgroundCardOpacity = 1.0,
   isAdd = false,
   fill = '#000',
 }: INoteIcon) => {
   return (
-    <Svg
-      width={parentWidth}
-      height={parentHeight}
-      viewBox="0 0 30 30"
-      fill="none">
+    <Svg width={size} height={size} viewBox="0 0 30 30" fill="none">
       <Path
         d="M25.077 15.8091L25.7241 13.3942C26.4794 10.5754 26.857 9.166 26.5726 7.94629C26.3481 6.98321 25.843 6.10835 25.1212 5.43234C24.2071 4.57619 22.7976 4.19854 19.9789 3.44322C17.16 2.68791 15.7505 2.31026 14.5309 2.59466C13.5677 2.81921 12.6929 3.32431 12.0169 4.04609C11.2839 4.82872 10.9016 5.97446 10.3328 8.05701C10.2372 8.40675 10.1364 8.78291 10.0278 9.18821L9.38072 11.6033C8.62541 14.4221 8.24776 15.8315 8.53216 17.0512C8.75671 18.0144 9.26181 18.8892 9.98359 19.5652C10.8977 20.4214 12.3071 20.799 15.126 21.5544C17.6667 22.2351 19.0624 22.6091 20.2062 22.468C20.3315 22.4526 20.4536 22.431 20.574 22.4029C21.537 22.1784 22.4119 21.6732 23.0879 20.9515C23.944 20.0374 24.3217 18.628 25.077 15.8091Z"
         fill={fill}

@@ -2,17 +2,9 @@ import Svg, {Path} from 'react-native-svg';
 import React from 'react';
 import {PartialIcon} from '../IIcon.ts';
 
-const ExitIcon = ({
-  parentWidth = 16,
-  parentHeight = 16,
-  fill = '#000',
-}: PartialIcon) => {
+const ExitIcon = ({size = 16, fill = '#000'}: PartialIcon) => {
   return (
-    <Svg
-      width={parentWidth}
-      height={parentHeight}
-      viewBox="0 0 24 24"
-      fill="none">
+    <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
       <Path
         d="M12.75 11C12.75 10.5858 12.4142 10.25 12 10.25C11.5858 10.25 11.25 10.5858 11.25 11V13C11.25 13.4142 11.5858 13.75 12 13.75C12.4142 13.75 12.75 13.4142 12.75 13V11Z"
         fill={fill}
