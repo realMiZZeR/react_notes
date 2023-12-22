@@ -3,17 +3,12 @@ import Svg, {Path} from 'react-native-svg';
 import {PartialIcon} from '../IIcon.ts';
 
 const FilterIcon = ({
-  parentWidth = 16,
-  parentHeight = 16,
+  size = 16,
   strokeColor = '#000',
   strokeWidth = 2,
 }: PartialIcon) => {
   return (
-    <Svg
-      width={parentWidth}
-      height={parentHeight}
-      viewBox="0 0 24 24"
-      fill="none">
+    <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
       <Path
         fillRule="evenodd"
         clipRule="evenodd"

@@ -3,25 +3,20 @@ import Svg, {ClipPath, Defs, G, Mask, Path, Rect} from 'react-native-svg';
 import {PartialIcon} from '../IIcon.ts';
 
 const EnterIcon = ({
-  parentWidth = 18,
-  parentHeight = 18,
+  size = 16,
   strokeColor = '#000',
   strokeWidth = 1.5,
 }: PartialIcon) => {
   return (
-    <Svg
-      width={parentWidth}
-      height={parentHeight}
-      viewBox="0 0 24 24"
-      fill="none">
+    <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
       <G clip-path="url(#clip0_4_619)">
         <Mask
           id="mask0_4_619"
           maskUnits="userSpaceOnUse"
           x="0"
           y="0"
-          width={parentWidth + 4}
-          height={parentHeight + 4}>
+          width={size + 4}
+          height={size + 4}>
           <Path d="M24 0H0V24H24V0Z" fill="white" />
         </Mask>
         <G mask="url(#mask0_4_619)">
@@ -43,7 +38,7 @@ const EnterIcon = ({
       </G>
       <Defs>
         <ClipPath id="clip0_4_619">
-          <Rect width={parentWidth} height={parentHeight} fill="white" />
+          <Rect width={size} height={size} fill="white" />
         </ClipPath>
       </Defs>
     </Svg>

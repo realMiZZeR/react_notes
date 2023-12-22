@@ -27,12 +27,7 @@ export const Logo = ({size, containerStyle}: ILogo) => {
 
   return (
     <View style={{...styles.container, ...containerStyle}}>
-      <NoteIcon
-        parentWidth={logoSize}
-        parentHeight={logoSize}
-        backgroundCardOpacity={0.5}
-        fill={'#FFF'}
-      />
+      <NoteIcon size={logoSize} backgroundCardOpacity={0.5} fill={'#FFF'} />
       {size === 'small' ? (
         <Text style={textStyle}>SE Notes</Text>
       ) : (

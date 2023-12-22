@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Logo} from '../components/Logo.tsx';
-import {AuthForm} from '../modules/AuthForm.tsx';
+import {AuthForm} from '../modules/Auth/AuthForm.tsx';
 import {NavigationProp} from '@react-navigation/native';
 
 interface IAuthScreen {

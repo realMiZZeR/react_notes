@@ -9,13 +9,16 @@ import {
 import React, {useState} from 'react';
 import {UserBarTab} from './UserBarTab.tsx';
 import ExitIcon from '../../assets/icons/ExitIcon/ExitIcon.tsx';
+import {observer} from 'mobx-react';
+import {useAuth} from '../../modules/Auth/hooks/useAuth.ts';
 
 interface IUserBar {
   imageUrl: string | null;
   username: string;
 }
 
-export const UserBar = ({imageUrl, username}: IUserBar) => {
+export const UserBar = observer(({imageUrl, username}: IUserBar) => {
+  const {user} = useAuth();
   const [isOpen, setIsOpen] = useState(false);
 
   const handlePress = (e: GestureResponderEvent) => {
@@ -34,7 +37,7 @@ export const UserBar = ({imageUrl, username}: IUserBar) => {
       style={styles.container}>
       <UserBarTab
         image={<Image style={styles.userImage} />}
-        text={'aboba'}
+        text={user.data.login}
         textStyle={styles.userText}
       />
       {isOpen && (
@@ -46,7 +49,7 @@ export const UserBar = ({imageUrl, username}: IUserBar) => {
       )}
     </Pressable>
   );
-};
+});
 
 const styles = StyleSheet.create({
   container: {

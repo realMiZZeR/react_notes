@@ -4,9 +4,9 @@ import {
   createNativeStackNavigator,
   NativeStackNavigationOptions,
 } from '@react-navigation/native-stack';
-import {AuthScreen} from '../screens/AuthScreen.tsx';
+import {AuthScreen} from '../../screens/AuthScreen.tsx';
 import {StyleSheet} from 'react-native';
-import {NotesScreen} from '../screens/NotesScreen.tsx';
+import {NotesScreen} from '../../screens/NotesScreen.tsx';
 
 const Stack = createNativeStackNavigator();
 

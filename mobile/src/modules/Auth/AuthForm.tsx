@@ -1,10 +1,12 @@
 import React, {useState} from 'react';
 import {StyleSheet, View} from 'react-native';
-import {IconInput} from '../components/IconInput.tsx';
-import UserIcon from '../assets/icons/UserIcon/UserIcon.tsx';
-import {IconButton} from '../components/IconButton.tsx';
-import EnterIcon from '../assets/icons/EnterIcon/EnterIcon.tsx';
-import LockIcon from '../assets/icons/LockIcon/LockIcon.tsx';
+import {IconInput} from '../../components/IconInput.tsx';
+import UserIcon from '../../assets/icons/UserIcon/UserIcon.tsx';
+import {IconButton} from '../../components/IconButton.tsx';
+import EnterIcon from '../../assets/icons/EnterIcon/EnterIcon.tsx';
+import LockIcon from '../../assets/icons/LockIcon/LockIcon.tsx';
+import {useAuth} from './hooks/useAuth.ts';
+import {ISignInParams} from './interfaces/ISignInParams.ts';
 
 interface IAuthForm {
   onSubmit?: () => void;
@@ -15,45 +17,43 @@ interface IAuthForm {
  * @constructor
  */
 export const AuthForm = ({onSubmit}: IAuthForm) => {
+  const {authorize} = useAuth();
+
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleButtonPress = () => {
-    console.log(login);
-    onSubmit?.();
+  const handleButtonPress = async () => {
+    const params: ISignInParams = {
+      login: login,
+      password: password,
+    };
+
+    const success: boolean = await authorize(params);
+    if (success) {
+      onSubmit?.();
+      return;
+    }
+
+    console.error('cant auth');
   };
 
   return (
     <View style={styles.container}>
       <IconInput
-        icon={<UserIcon parentWidth={18} parentHeight={18} fill={'#CAD0E4'} />}
+        icon={<UserIcon size={18} fill={'#CAD0E4'} />}
         text={login}
         placeholder={'Логин'}
         onChangeText={setLogin}
       />
       <IconInput
-        icon={
-          <LockIcon
-            parentWidth={18}
-            parentHeight={18}
-            strokeColor={'#CAD0E4'}
-            strokeWidth={2}
-          />
-        }
+        icon={<LockIcon size={18} strokeColor={'#CAD0E4'} strokeWidth={2} />}
         text={password}
         placeholder={'Пароль'}
         onChangeText={setPassword}
         isPassword={true}
       />
       <IconButton
-        icon={
-          <EnterIcon
-            parentWidth={18}
-            parentHeight={18}
-            strokeWidth={2}
-            strokeColor={'#F9F9F9'}
-          />
-        }
+        icon={<EnterIcon size={18} strokeWidth={2} strokeColor={'#F9F9F9'} />}
         text={'Войти'}
         onPress={handleButtonPress}
         parentStyle={styles.submitButton}
@@ -69,6 +69,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 25,
   },
   submitButton: {
+    width: 100,
     marginLeft: 'auto',
   },
 });

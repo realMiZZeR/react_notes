@@ -18,9 +18,11 @@ import EditIcon from '../../assets/icons/EditIcon/EditIcon.tsx';
 
 type Valuable = 'important' | 'common';
 
-interface INoteCard {
+export interface INoteCard {
+  id: number;
   valueable: Valuable;
   description: string;
+  date: Date;
   onEdit?: () => void;
   onDelete?: () => void;
   onNotePress?: () => void;
@@ -29,6 +31,7 @@ interface INoteCard {
 export const NoteCard = ({
   valueable,
   description,
+  date,
   onDelete,
   onEdit,
   onNotePress,
@@ -67,12 +70,16 @@ export const NoteCard = ({
           <View style={styles.details}>
             <NoteDetail
               icon={<ClockIcon size={12} strokeColor={'#CAD0E4'} />}
-              text={'17:30'}
+              text={date.toLocaleTimeString()}
               color={'#CAD0E4'}
             />
             <NoteDetail
               icon={<CalendarIcon size={12} strokeColor={'#CAD0E4'} />}
-              text={'12.12.2023'}
+              text={date.toLocaleDateString('ru-RU', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+              })}
               color={'#CAD0E4'}
             />
           </View>
@@ -113,7 +120,6 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     backgroundColor: '#3D3657',
     borderRadius: 8,
-    marginTop: 50,
   },
   info: {
     flex: 1,

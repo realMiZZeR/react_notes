@@ -49,7 +49,12 @@ export const IconInput = ({
   };
 
   return (
-    <Pressable onPress={handlePress} style={styles.container}>
+    <Pressable
+      onPress={handlePress}
+      style={{
+        ...styles.container,
+        flexDirection: isIconPlaceRight ? 'row-reverse' : 'row',
+      }}>
       {icon}
       <TextInput
         ref={textInputRef}
@@ -72,7 +77,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 8,
     width: '100%',
-    height: 'auto',
     padding: 8,
     backgroundColor: '#1E1833',
     borderColor: '#302948',
@@ -81,6 +85,7 @@ const styles = StyleSheet.create({
   },
   icon: {},
   textInput: {
+    flex: 1,
     width: '100%',
     color: '#CAD0E4',
     fontSize: 12,
