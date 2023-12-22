@@ -29,12 +29,11 @@ export const AuthForm = ({onSubmit}: IAuthForm) => {
     };
 
     const success: boolean = await authorize(params);
+
     if (success) {
       onSubmit?.();
       return;
     }
-
-    console.error('cant auth');
   };
 
   return (
