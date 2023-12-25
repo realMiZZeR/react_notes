@@ -7,6 +7,8 @@ import EnterIcon from '../../assets/icons/EnterIcon/EnterIcon.tsx';
 import LockIcon from '../../assets/icons/LockIcon/LockIcon.tsx';
 import {useAuth} from './hooks/useAuth.ts';
 import {ISignInParams} from './interfaces/ISignInParams.ts';
+import {useNotifications} from '../Notification/NotificationsProvider.tsx';
+import {INotificationMessage} from '../Notification/interfaces/INotificationMessage.ts';
 
 interface IAuthForm {
   onSubmit?: () => void;
@@ -18,6 +20,7 @@ interface IAuthForm {
  */
 export const AuthForm = ({onSubmit}: IAuthForm) => {
   const {authorize} = useAuth();
+  const {store: notificationStore} = useNotifications();
 
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
@@ -34,6 +37,12 @@ export const AuthForm = ({onSubmit}: IAuthForm) => {
       onSubmit?.();
       return;
     }
+
+    const notificationMessage: INotificationMessage = {
+      text: 'Incorrect login or password.',
+      type: 'alarm',
+    };
+    notificationStore.add(notificationMessage);
   };
 
   return (
