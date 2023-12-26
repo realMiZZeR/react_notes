@@ -1,24 +1,28 @@
+import React, {useState} from 'react';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {
   GestureResponderEvent,
   Image,
   Pressable,
   StyleSheet,
-  Text,
-  View,
 } from 'react-native';
-import React, {useState} from 'react';
 import {UserBarTab} from './UserBarTab.tsx';
 import ExitIcon from '../../assets/icons/ExitIcon/ExitIcon.tsx';
 import {observer} from 'mobx-react';
 import {useAuth} from '../../modules/Auth/hooks/useAuth.ts';
+import {useNavigation} from '@react-navigation/native';
+import {RootStackParamList} from '../../modules/ScreenNavigtation/RootStackParamList.ts';
 
 interface IUserBar {
   imageUrl: string | null;
   username: string;
 }
 
+type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
+
 export const UserBar = observer(({imageUrl, username}: IUserBar) => {
-  const {user} = useAuth();
+  const {user, exit} = useAuth();
+  const navigation = useNavigation<NavigationProp>();
   const [isOpen, setIsOpen] = useState(false);
 
   const handlePress = (e: GestureResponderEvent) => {
@@ -27,7 +31,8 @@ export const UserBar = observer(({imageUrl, username}: IUserBar) => {
   };
 
   const handleExitButton = () => {
-    console.log('exit');
+    exit();
+    navigation.navigate('Auth');
   };
 
   return (
@@ -37,7 +42,7 @@ export const UserBar = observer(({imageUrl, username}: IUserBar) => {
       style={styles.container}>
       <UserBarTab
         image={<Image style={styles.userImage} />}
-        text={user.data.login}
+        text={user.data?.login ?? ''}
         textStyle={styles.userText}
       />
       {isOpen && (

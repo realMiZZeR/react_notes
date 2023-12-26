@@ -15,12 +15,11 @@ import CalendarIcon from '../../assets/icons/CalendarIcon/CalendarIcon.tsx';
 import {IconButton} from '../IconButton.tsx';
 import DeleteIcon from '../../assets/icons/DeleteIcon/DeleteIcon.tsx';
 import EditIcon from '../../assets/icons/EditIcon/EditIcon.tsx';
-
-type Valuable = 'important' | 'common';
+import {NoteValuable} from './NoteValuable.ts';
 
 export interface INoteCard {
   id: number;
-  valueable: Valuable;
+  valueable: NoteValuable;
   description: string;
   date: Date;
   onEdit?: () => void;

@@ -34,6 +34,8 @@ export const AuthForm = ({onSubmit}: IAuthForm) => {
     const success: boolean = await authorize(params);
 
     if (success) {
+      setLogin('');
+      setPassword('');
       onSubmit?.();
       return;
     }
@@ -64,7 +66,9 @@ export const AuthForm = ({onSubmit}: IAuthForm) => {
         icon={<EnterIcon size={18} strokeWidth={2} strokeColor={'#F9F9F9'} />}
         text={'Войти'}
         onPress={handleButtonPress}
-        parentStyle={styles.submitButton}
+        style={{
+          button: styles.submitButton,
+        }}
       />
     </View>
   );
@@ -72,8 +76,10 @@ export const AuthForm = ({onSubmit}: IAuthForm) => {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+    justifyContent: 'flex-start',
+    maxHeight: 132,
     gap: 8,
-    width: '100%',
     paddingHorizontal: 25,
   },
   submitButton: {

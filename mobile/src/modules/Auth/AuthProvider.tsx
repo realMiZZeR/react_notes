@@ -1,7 +1,7 @@
 import React, {createContext, PropsWithChildren} from 'react';
 import {signIn} from './scripts/signIn.ts';
 import {signUp} from './scripts/signUp.ts';
-import {exit} from './scripts/exit.ts';
+import {exit as exitScript} from './scripts/exit.ts';
 import {ISignInParams} from './interfaces/ISignInParams.ts';
 import {observer} from 'mobx-react';
 import {UserStore} from '../User/UserStore.ts';
@@ -19,6 +19,7 @@ export const AuthProvider = observer((props: PropsWithChildren) => {
   const user: UserStore = new UserStore();
   const authorize = signIn(user);
   const register = signUp;
+  const exit = exitScript(user);
 
   const value = {user, authorize, register, exit};
 

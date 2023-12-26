@@ -32,8 +32,6 @@ export const NotificationCard = ({
     backgroundColor: NotificationColor[notificationMessage.type],
   });
 
-  console.log(notificationMessage.text);
-
   return (
     <Pressable onPress={handlePress} style={flattenStyle}>
       <Text style={styles.text}>{notificationMessage.text}</Text>

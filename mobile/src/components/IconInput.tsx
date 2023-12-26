@@ -1,14 +1,17 @@
 import React, {useRef, useState} from 'react';
-import {Pressable, StyleSheet, TextInput} from 'react-native';
+import {Pressable, StyleSheet, TextInput, ViewStyle} from 'react-native';
 import {IIcon} from '../assets/icons/IIcon.ts';
 
 interface IIconInput {
-  icon: React.ReactElement<IIcon>;
   text: string;
   onChangeText: (value: string) => void;
+  style?: {container?: ViewStyle; input?: ViewStyle};
+  icon?: React.ReactElement<IIcon>;
   name?: string;
   placeholder?: string;
   isPassword?: boolean;
+  multiline?: boolean;
+  numberOfLines?: number;
   isIconPlaceRight?: boolean;
 }
 
@@ -22,9 +25,12 @@ interface IIconInput {
 export const IconInput = ({
   icon,
   text,
+  style,
   onChangeText,
   placeholder = '',
   isPassword = false,
+  multiline = false,
+  numberOfLines = 4,
   isIconPlaceRight = false,
 }: IIconInput) => {
   const [placeholderColor, setPlaceholderColor] = useState(
@@ -47,15 +53,15 @@ export const IconInput = ({
   const handleTextInputBlur = () => {
     setPlaceholderColor(styles.textInput.color);
   };
-
   return (
     <Pressable
       onPress={handlePress}
-      style={{
-        ...styles.container,
-        flexDirection: isIconPlaceRight ? 'row-reverse' : 'row',
-      }}>
-      {icon}
+      style={StyleSheet.flatten([
+        styles.container,
+        style?.container,
+        {flexDirection: isIconPlaceRight ? 'row-reverse' : 'row'},
+      ])}>
+      {icon && icon}
       <TextInput
         ref={textInputRef}
         onBlur={handleTextInputBlur}
@@ -63,9 +69,11 @@ export const IconInput = ({
         value={text}
         onChangeText={onChangeText}
         placeholder={placeholder}
-        style={styles.textInput}
         placeholderTextColor={placeholderColor}
         secureTextEntry={isPassword}
+        multiline={multiline}
+        numberOfLines={numberOfLines}
+        style={StyleSheet.compose(styles.textInput, style?.input)}
       />
     </Pressable>
   );
@@ -73,6 +81,7 @@ export const IconInput = ({
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
@@ -83,7 +92,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 4,
   },
-  icon: {},
   textInput: {
     flex: 1,
     width: '100%',

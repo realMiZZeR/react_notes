@@ -1,15 +1,14 @@
 import React, {createContext, PropsWithChildren, useContext} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {observer} from 'mobx-react';
-import {NotificationStore} from './NotificationStore.ts';
 import {NotificationCard} from './NotificationCard.tsx';
-
-interface INotificationProvider {
-  store: NotificationStore;
-}
+import {INotificationProvider} from './interfaces/INotificationProvider.ts';
 
 const NotificationsContext = createContext<INotificationProvider | null>(null);
 
+/**
+ * Хук для извлечения полей и методов NotificationsProvider.
+ */
 export const useNotifications = () => {
   const context = useContext(NotificationsContext);
 
@@ -20,6 +19,9 @@ export const useNotifications = () => {
   return context;
 };
 
+/**
+ * Компонент, который отрисовывает оповещения в приложении.
+ */
 export const NotificationsProvider = observer(
   ({children, store}: INotificationProvider & PropsWithChildren) => {
     const value = {
@@ -29,10 +31,15 @@ export const NotificationsProvider = observer(
     return (
       <NotificationsContext.Provider value={value}>
         {children}
+
+        {/* Отрисовка оповещений */}
         <View style={styles.container}>
           {store.messages &&
             store.messages.map(message => (
-              <NotificationCard notificationMessage={message} />
+              <NotificationCard
+                key={message.id}
+                notificationMessage={message}
+              />
             ))}
         </View>
       </NotificationsContext.Provider>

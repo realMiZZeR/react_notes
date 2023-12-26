@@ -2,17 +2,21 @@ import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Logo} from '../components/Logo.tsx';
 import {AuthForm} from '../modules/Auth/AuthForm.tsx';
-import {NavigationProp} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../modules/ScreenNavigtation/RootStackParamList.ts';
 
-interface IAuthScreen {
-  navigation: NavigationProp<any>;
-}
+interface IAuthScreen {}
+
+type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 /**
  * Начальный экран для авторизации.
  * @constructor
  */
-export const AuthScreen = ({navigation}: IAuthScreen) => {
+export const AuthScreen = ({}: IAuthScreen) => {
+  const navigation = useNavigation<NavigationProp>();
+
   const handleAuthFormSubmit = () => {
     navigation.navigate('Notes');
   };
@@ -27,8 +31,7 @@ export const AuthScreen = ({navigation}: IAuthScreen) => {
 
 const styles = StyleSheet.create({
   container: {
-    width: '100%',
-    height: '100%',
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },

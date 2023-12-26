@@ -12,17 +12,22 @@ const DefaultUser: IUserData = {
  * Хранилище данных пользователя. Используется в модуле авторизации.
  */
 export class UserStore {
-  private _data: IUserData;
+  private _data: IUserData | null;
   constructor() {
     this._data = {...DefaultUser};
     makeObservable(this);
   }
 
-  get data() {
+  get data(): IUserData | null {
     return this._data;
   }
 
-  set data(value: IUserData) {
+  set data(value: IUserData | null) {
+    if (value === null) {
+      console.log('set data value is null in user store');
+      return;
+    }
+
     this._data = value;
   }
 
@@ -30,6 +35,7 @@ export class UserStore {
    * Полностью стирает данные о пользователя из хранилища.
    */
   clear() {
-    this._data = DefaultUser;
+    console.log('user data cleared');
+    this._data = null;
   }
 }
