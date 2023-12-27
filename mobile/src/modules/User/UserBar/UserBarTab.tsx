@@ -1,17 +1,7 @@
-import React, {ComponentProps, ReactElement, ReactNode} from 'react';
-import {
-  GestureResponderEvent,
-  Image,
-  ImageComponent,
-  ImageProps,
-  Pressable,
-  StyleSheet,
-  Text,
-  TextStyle,
-  View,
-} from 'react-native';
-import {PartialIcon} from '../../assets/icons/IIcon.ts';
-import {FontsEnum} from '../../constants/FontsEnum.ts';
+import React, {ComponentProps, ReactElement} from 'react';
+import {Image, Pressable, StyleSheet, Text, TextStyle} from 'react-native';
+import {PartialIcon} from 'icons/IIcon.ts';
+import {FontsEnum} from '../../../constants/FontsEnum.ts';
 
 interface IUserBarTab {
   image: ReactElement<PartialIcon> | ReactElement<ComponentProps<typeof Image>>;
@@ -21,7 +11,7 @@ interface IUserBarTab {
 }
 
 export const UserBarTab = ({image, text, textStyle, onPress}: IUserBarTab) => {
-  const handlePress = (e: GestureResponderEvent) => {
+  const handlePress = () => {
     onPress?.();
   };
 

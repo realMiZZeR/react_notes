@@ -7,11 +7,11 @@ import {
   StyleSheet,
 } from 'react-native';
 import {UserBarTab} from './UserBarTab.tsx';
-import ExitIcon from '../../assets/icons/ExitIcon/ExitIcon.tsx';
 import {observer} from 'mobx-react';
-import {useAuth} from '../../modules/Auth/hooks/useAuth.ts';
+import {useAuth} from '../../Auth/hooks/useAuth.ts';
 import {useNavigation} from '@react-navigation/native';
-import {RootStackParamList} from '../../modules/ScreenNavigtation/RootStackParamList.ts';
+import {RootStackParamList} from '../../ScreenNavigtation/RootStackParamList.ts';
+import {Icons} from 'icons/Icons.ts';
 
 interface IUserBar {
   imageUrl: string | null;
@@ -20,7 +20,7 @@ interface IUserBar {
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
-export const UserBar = observer(({imageUrl, username}: IUserBar) => {
+export const UserBar = observer(({}: IUserBar) => {
   const {user, exit} = useAuth();
   const navigation = useNavigation<NavigationProp>();
   const [isOpen, setIsOpen] = useState(false);
@@ -37,7 +37,7 @@ export const UserBar = observer(({imageUrl, username}: IUserBar) => {
 
   return (
     <Pressable
-      onStartShouldSetResponder={event => true}
+      onStartShouldSetResponder={() => true}
       onTouchEnd={handlePress}
       style={styles.container}>
       <UserBarTab
@@ -47,7 +47,7 @@ export const UserBar = observer(({imageUrl, username}: IUserBar) => {
       />
       {isOpen && (
         <UserBarTab
-          image={<ExitIcon size={24} />}
+          image={<Icons.Exit size={24} />}
           text={'Выйти'}
           onPress={handleExitButton}
         />

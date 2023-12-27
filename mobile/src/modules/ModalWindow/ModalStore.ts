@@ -2,7 +2,7 @@ import {ReactElement} from 'react';
 import {action, makeObservable, observable} from 'mobx';
 
 class ModalStore {
-  public currentModal: ReactElement | null;
+  public currentModal: ReactElement<any> | null;
 
   constructor() {
     this.currentModal = null;

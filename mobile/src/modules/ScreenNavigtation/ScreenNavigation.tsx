@@ -4,9 +4,9 @@ import {
   createNativeStackNavigator,
   NativeStackNavigationOptions,
 } from '@react-navigation/native-stack';
-import {AuthScreen} from '../../screens/AuthScreen.tsx';
+import {AuthScreen} from '../Auth/AuthScreen.tsx';
 import {StyleSheet} from 'react-native';
-import {NotesScreen} from '../../screens/NotesScreen.tsx';
+import {NotesScreen} from '../Notes/NotesScreen.tsx';
 
 const Stack = createNativeStackNavigator();
 
@@ -35,6 +35,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     paddingHorizontal: 10,
+    paddingVertical: 10,
     backgroundColor: '#0F0A21',
   },
 });

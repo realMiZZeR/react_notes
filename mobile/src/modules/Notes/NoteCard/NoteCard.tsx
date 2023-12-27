@@ -6,22 +6,13 @@ import {
   Text,
   View,
 } from 'react-native';
-import WarningIcon from '../../assets/icons/WarningIcon/WarningIcon.tsx';
-import NoteIcon from '../../assets/icons/NoteIcon/NoteIcon.tsx';
 import {NoteDetail} from './NoteDetail.tsx';
-import ClockIcon from '../../assets/icons/ClockIcon/ClockIcon.tsx';
-import {FontsEnum} from '../../constants/FontsEnum.ts';
-import CalendarIcon from '../../assets/icons/CalendarIcon/CalendarIcon.tsx';
-import {IconButton} from '../IconButton.tsx';
-import DeleteIcon from '../../assets/icons/DeleteIcon/DeleteIcon.tsx';
-import EditIcon from '../../assets/icons/EditIcon/EditIcon.tsx';
-import {NoteValuable} from './NoteValuable.ts';
+import {FontsEnum} from '../../../constants/FontsEnum.ts';
+import {IconButton} from 'components/IconButton.tsx';
+import {INote} from './INote.ts';
+import {Icons} from 'icons/Icons.ts';
 
-export interface INoteCard {
-  id: number;
-  valueable: NoteValuable;
-  description: string;
-  date: Date;
+interface INoteCard extends INote {
   onEdit?: () => void;
   onDelete?: () => void;
   onNotePress?: () => void;
@@ -54,9 +45,9 @@ export const NoteCard = ({
         onLongPress={handleCardPress}
         style={styles.card}>
         {valueable === 'important' ? (
-          <WarningIcon size={30} fill={'#CAD0E4'} />
+          <Icons.Warning size={30} fill={'#CAD0E4'} />
         ) : (
-          <NoteIcon size={30} fill={'#CAD0E4'} />
+          <Icons.Note size={30} fill={'#CAD0E4'} />
         )}
 
         <View style={styles.info}>
@@ -68,12 +59,12 @@ export const NoteCard = ({
           </Text>
           <View style={styles.details}>
             <NoteDetail
-              icon={<ClockIcon size={12} strokeColor={'#CAD0E4'} />}
+              icon={<Icons.Clock size={12} strokeColor={'#CAD0E4'} />}
               text={date.toLocaleTimeString()}
               color={'#CAD0E4'}
             />
             <NoteDetail
-              icon={<CalendarIcon size={12} strokeColor={'#CAD0E4'} />}
+              icon={<Icons.Calendar size={12} strokeColor={'#CAD0E4'} />}
               text={date.toLocaleDateString('ru-RU', {
                 year: 'numeric',
                 month: '2-digit',
@@ -89,15 +80,19 @@ export const NoteCard = ({
         <View style={styles.actions}>
           <IconButton
             text={'Удалить'}
-            icon={<DeleteIcon size={24} strokeColor={'#CAD0E4'} />}
+            icon={<Icons.Delete size={24} strokeColor={'#CAD0E4'} />}
             onPress={onDelete}
-            parentStyle={styles.actionButton}
+            style={{
+              button: styles.actionButton,
+            }}
           />
           <IconButton
             text={'Редактировать'}
-            icon={<EditIcon size={24} strokeColor={'#CAD0E4'} />}
+            icon={<Icons.Edit size={24} strokeColor={'#CAD0E4'} />}
             onPress={onEdit}
-            parentStyle={styles.actionButton}
+            style={{
+              button: styles.actionButton,
+            }}
           />
         </View>
       )}

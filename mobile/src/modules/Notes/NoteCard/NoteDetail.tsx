@@ -1,7 +1,6 @@
 import React, {ReactElement} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {PartialIcon} from '../../assets/icons/IIcon.ts';
-import {FontsEnum} from '../../constants/FontsEnum.ts';
+import {PartialIcon} from 'icons/IIcon.ts';
 
 interface INoteDetail {
   text: string;

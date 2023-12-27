@@ -24,9 +24,15 @@ mobile/*.hmap
 mobile/*.ipa
 mobile/*.xcuserstate
 mobile/mobile/ios/.xcode.env.local
+/mobile/ios/mobile.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist
+/mobile/ios/mobile.xcworkspace/xcuserdata/0x10c.xcuserdatad/UserInterfaceState.xcuserstate
 
 # Android/IntelliJ
 #
+/mobile/android/local.properties
+mobile/android/.gradle
+mobile/android/build
+mobile/android/app/build
 mobile/.idea
 mobile/.gradle
 mobile/local.properties

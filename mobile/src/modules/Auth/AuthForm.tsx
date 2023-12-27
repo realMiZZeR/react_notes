@@ -1,14 +1,12 @@
 import React, {useState} from 'react';
 import {StyleSheet, View} from 'react-native';
-import {IconInput} from '../../components/IconInput.tsx';
-import UserIcon from '../../assets/icons/UserIcon/UserIcon.tsx';
-import {IconButton} from '../../components/IconButton.tsx';
-import EnterIcon from '../../assets/icons/EnterIcon/EnterIcon.tsx';
-import LockIcon from '../../assets/icons/LockIcon/LockIcon.tsx';
+import {IconInput} from 'components/IconInput.tsx';
+import {IconButton} from 'components/IconButton.tsx';
 import {useAuth} from './hooks/useAuth.ts';
 import {ISignInParams} from './interfaces/ISignInParams.ts';
 import {useNotifications} from '../Notification/NotificationsProvider.tsx';
 import {INotificationMessage} from '../Notification/interfaces/INotificationMessage.ts';
+import {Icons} from 'icons/Icons.ts';
 
 interface IAuthForm {
   onSubmit?: () => void;
@@ -50,20 +48,20 @@ export const AuthForm = ({onSubmit}: IAuthForm) => {
   return (
     <View style={styles.container}>
       <IconInput
-        icon={<UserIcon size={18} fill={'#CAD0E4'} />}
+        icon={<Icons.User size={18} fill={'#CAD0E4'} />}
         text={login}
         placeholder={'Логин'}
         onChangeText={setLogin}
       />
       <IconInput
-        icon={<LockIcon size={18} strokeColor={'#CAD0E4'} strokeWidth={2} />}
+        icon={<Icons.Lock size={18} strokeColor={'#CAD0E4'} strokeWidth={2} />}
         text={password}
         placeholder={'Пароль'}
         onChangeText={setPassword}
         isPassword={true}
       />
       <IconButton
-        icon={<EnterIcon size={18} strokeWidth={2} strokeColor={'#F9F9F9'} />}
+        icon={<Icons.Enter size={18} strokeWidth={2} strokeColor={'#F9F9F9'} />}
         text={'Войти'}
         onPress={handleButtonPress}
         style={{

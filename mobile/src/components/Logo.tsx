@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, View, ViewStyle} from 'react-native';
-import NoteIcon from '../assets/icons/NoteIcon/NoteIcon.tsx';
 import {FontsEnum} from '../constants/FontsEnum.ts';
+import {Icons} from 'icons/Icons.ts';
 
 interface ILogo {
   size: 'small' | 'large';
@@ -11,6 +11,7 @@ interface ILogo {
 /**
  * Логотип приложения, предоставляющий функционал масштабирования.
  * @param size
+ * @param containerStyle
  * @constructor
  */
 export const Logo = ({size, containerStyle}: ILogo) => {
@@ -27,7 +28,7 @@ export const Logo = ({size, containerStyle}: ILogo) => {
 
   return (
     <View style={{...styles.container, ...containerStyle}}>
-      <NoteIcon size={logoSize} backgroundCardOpacity={0.5} fill={'#FFF'} />
+      <Icons.Note size={logoSize} backgroundCardOpacity={0.5} fill={'#FFF'} />
       {size === 'small' ? (
         <Text style={textStyle}>SE Notes</Text>
       ) : (

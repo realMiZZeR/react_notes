@@ -1,10 +1,10 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
-import {Logo} from '../components/Logo.tsx';
-import {AuthForm} from '../modules/Auth/AuthForm.tsx';
+import {Logo} from 'components/Logo.tsx';
+import {AuthForm} from './AuthForm.tsx';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {RootStackParamList} from '../modules/ScreenNavigtation/RootStackParamList.ts';
+import {RootStackParamList} from '../ScreenNavigtation/RootStackParamList.ts';
 
 interface IAuthScreen {}
 

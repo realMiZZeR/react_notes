@@ -1,18 +1,14 @@
-import React, {PropsWithChildren, ReactElement, useRef, useState} from 'react';
+import React, {PropsWithChildren, ReactElement, useState} from 'react';
 import {
   LayoutChangeEvent,
-  SafeAreaView,
   StyleSheet,
   Text,
   View,
   ViewStyle,
 } from 'react-native';
-import {IconInput} from '../../components/IconInput.tsx';
-import {AddNote} from '../AddNote/AddNote.tsx';
-import {IconButton} from '../../components/IconButton.tsx';
-import NoteIcon from '../../assets/icons/NoteIcon/NoteIcon.tsx';
 import {FontsEnum} from '../../constants/FontsEnum.ts';
 import {useModal} from './ModalProvider.tsx';
+import {Icons} from 'icons/Icons.ts';
 
 interface IModalWindow {
   modal: ReactElement;
@@ -43,7 +39,7 @@ export const ModalWindow = ({
       <View
         onLayout={onHeadLayout}
         style={StyleSheet.compose(styles.head, headStyle)}>
-        <NoteIcon size={24} fill={'#CAD0E4'} isAdd={true} />
+        <Icons.Note size={24} fill={'#CAD0E4'} isAdd={true} />
         <Text style={styles.text}>Новая запись</Text>
       </View>
       {modal}

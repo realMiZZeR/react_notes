@@ -1,33 +1,21 @@
 import React, {useState} from 'react';
 import {StyleSheet, View} from 'react-native';
-import {IconInput} from '../../components/IconInput.tsx';
-import {NoteValuable} from '../../components/NoteCard/NoteValuable.ts';
-import {IconButton} from '../../components/IconButton.tsx';
-import WarningIcon from '../../assets/icons/WarningIcon/WarningIcon.tsx';
-import NoteIcon from '../../assets/icons/NoteIcon/NoteIcon.tsx';
-import ClockIcon from '../../assets/icons/ClockIcon/ClockIcon.tsx';
-import CalendarIcon from '../../assets/icons/CalendarIcon/CalendarIcon.tsx';
-import RepeatIcon from '../../assets/icons/RepeatIcon/RepeatIcon.tsx';
-import {FontsEnum} from '../../constants/FontsEnum.ts';
+import {IconInput} from 'components/IconInput.tsx';
+import {NoteValuable} from '../NoteCard/NoteValuable.ts';
+import {IconButton} from 'components/IconButton.tsx';
+import {FontsEnum} from '../../../constants/FontsEnum.ts';
+import {IFormData} from './IFormData.ts';
+import {Icons} from 'icons/Icons.ts';
 
-interface IAddNote {}
-
-interface IFormData {
-  description: string;
-  valuable: NoteValuable;
-  time: string;
-  date: string;
-  repeat: boolean;
+interface IAddNote {
+  onSubmit?: (data: IFormData) => void;
 }
 
-export const AddNote = ({}: IAddNote) => {
-  const currentDate = new Date();
-
+export const AddNote = ({onSubmit}: IAddNote) => {
   const [formData, setFormData] = useState<IFormData>({
     description: '',
     valuable: 'common',
-    date: currentDate.toLocaleDateString(),
-    time: currentDate.toLocaleTimeString(),
+    date: new Date(),
     repeat: false,
   });
 
@@ -57,7 +45,7 @@ export const AddNote = ({}: IAddNote) => {
   };
 
   const handleCreateButton = () => {
-    console.log('create');
+    onSubmit?.(formData);
   };
 
   return (
@@ -74,7 +62,7 @@ export const AddNote = ({}: IAddNote) => {
 
       <View style={styles.valuables}>
         <IconButton
-          icon={<WarningIcon size={24} fill={'#CAD0E4'} />}
+          icon={<Icons.Warning size={24} fill={'#CAD0E4'} />}
           text={'важная'}
           onPress={() => handleValuableButton('important')}
           style={{
@@ -86,7 +74,7 @@ export const AddNote = ({}: IAddNote) => {
           }}
         />
         <IconButton
-          icon={<NoteIcon size={24} fill={'#CAD0E4'} />}
+          icon={<Icons.Note size={24} fill={'#CAD0E4'} />}
           text={'обычная'}
           onPress={() => handleValuableButton('common')}
           style={{
@@ -101,8 +89,8 @@ export const AddNote = ({}: IAddNote) => {
 
       <View style={styles.settings}>
         <IconButton
-          icon={<ClockIcon size={16} strokeColor={'#CAD0E4'} />}
-          text={formData.time}
+          icon={<Icons.Clock size={16} strokeColor={'#CAD0E4'} />}
+          text={formData.date.toLocaleTimeString()}
           onPress={handleTimeButton}
           style={{
             button: styles.settingsButton,
@@ -111,8 +99,8 @@ export const AddNote = ({}: IAddNote) => {
           type={'bordered'}
         />
         <IconButton
-          icon={<CalendarIcon size={16} strokeColor={'#CAD0E4'} />}
-          text={formData.date}
+          icon={<Icons.Calendar size={16} strokeColor={'#CAD0E4'} />}
+          text={formData.date.toLocaleDateString()}
           onPress={handleDateButton}
           style={{
             button: styles.settingsButton,
@@ -121,7 +109,7 @@ export const AddNote = ({}: IAddNote) => {
           type={'bordered'}
         />
         <IconButton
-          icon={<RepeatIcon size={16} strokeColor={'#CAD0E4'} />}
+          icon={<Icons.Repeat size={16} strokeColor={'#CAD0E4'} />}
           text={'Повторять'}
           onPress={handleRepeatButton}
           style={{

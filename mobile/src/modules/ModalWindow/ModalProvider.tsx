@@ -5,10 +5,10 @@ import React, {
   useContext,
 } from 'react';
 import {StyleSheet} from 'react-native';
-import {ModalWindow} from './ModalWindow.tsx';
-import {Blackover} from '../../components/Blackover.tsx';
-import {ModalStore} from './ModalStore.ts';
 import {observer} from 'mobx-react';
+import {Blackover} from 'components/Blackover.tsx';
+import {ModalWindow} from './ModalWindow.tsx';
+import {ModalStore} from './ModalStore.ts';
 
 interface IModalProvider {
   store: ModalStore;
@@ -33,8 +33,6 @@ export const useModal = () => {
 
 export const ModalProvider = observer(
   ({children, store}: IModalProvider & PropsWithChildren) => {
-    console.log(store.currentModal);
-
     const hide = () => {
       store.close();
     };
