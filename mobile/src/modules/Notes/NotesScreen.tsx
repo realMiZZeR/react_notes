@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {FlatList, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import {observer} from 'mobx-react';
 import {IconButton} from 'components/IconButton.tsx';
@@ -26,6 +26,8 @@ export const NotesScreen = observer(() => {
     });
     modal.close();
   };
+
+  useEffect(() => {}, []);
 
   const handleAddButtonClick = () => {
     modal.setModal(<AddNote onSubmit={handleAddNoteSubmit} />);

@@ -29,7 +29,8 @@ mobile/mobile/ios/.xcode.env.local
 
 # Android/IntelliJ
 #
-/mobile/android/local.properties
+mobile/ios/Podfile.lock
+mobile/android/local.properties
 mobile/android/.gradle
 mobile/android/build
 mobile/android/app/build
@@ -47,6 +48,7 @@ mobile/!debug.keystore
 */node_modules/
 */npm-debug.log
 */yarn-error.log
+*/package-lock.json
 
 # fastlane
 #
