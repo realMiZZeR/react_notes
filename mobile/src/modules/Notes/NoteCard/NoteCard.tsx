@@ -19,7 +19,7 @@ interface INoteCard extends INote {
 }
 
 export const NoteCard = ({
-  valueable,
+  importance,
   description,
   date,
   onDelete,
@@ -38,13 +38,13 @@ export const NoteCard = ({
   return (
     <View
       style={
-        valueable === 'important' ? {...styles.container} : styles.container
+        importance === 'important' ? {...styles.container} : styles.container
       }>
       <Pressable
         delayLongPress={300}
         onLongPress={handleCardPress}
         style={styles.card}>
-        {valueable === 'important' ? (
+        {importance === 'important' ? (
           <Icons.Warning size={30} fill={'#CAD0E4'} />
         ) : (
           <Icons.Note size={30} fill={'#CAD0E4'} />

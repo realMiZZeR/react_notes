@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {IconInput} from 'components/IconInput.tsx';
-import {NoteValuable} from '../NoteCard/NoteValuable.ts';
+import {NoteImportance} from '../NoteCard/NoteImportance.ts';
 import {IconButton} from 'components/IconButton.tsx';
 import {FontsEnum} from '../../../constants/FontsEnum.ts';
 import {IFormData} from './IFormData.ts';
@@ -26,7 +26,7 @@ export const AddNote = ({onSubmit}: IAddNote) => {
     });
   };
 
-  const handleValuableButton = (value: NoteValuable) => {
+  const handleValuableButton = (value: NoteImportance) => {
     setFormData({
       ...formData,
       valuable: value,

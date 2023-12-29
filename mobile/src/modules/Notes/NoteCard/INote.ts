@@ -1,8 +1,8 @@
-import {NoteValuable} from './NoteValuable.ts';
+import {NoteImportance} from './NoteImportance.ts';
 
 export interface INote {
   id: number;
-  valueable: NoteValuable;
   description: string;
   date: Date;
+  importance: NoteImportance;
 }

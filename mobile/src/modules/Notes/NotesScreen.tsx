@@ -1,5 +1,6 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {FlatList, SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import firestore from '@react-native-firebase/firestore';
 import {observer} from 'mobx-react';
 import {IconButton} from 'components/IconButton.tsx';
 import {IconInput} from 'components/IconInput.tsx';
@@ -15,19 +16,22 @@ const notesStore = new NotesStore();
 
 export const NotesScreen = observer(() => {
   const modal = useModal();
+  const [notes, setNotes] = useState([]);
+
+  useEffect(() => {
+    console.log(notesStore.fetch());
+  });
 
   const handleAddNoteSubmit = (data: IFormData) => {
     console.log('handle submit');
     notesStore.add({
       id: Number(Date.now()),
       description: data.description,
-      valueable: data.valuable,
+      importance: data.valuable,
       date: data.date,
     });
     modal.close();
   };
-
-  useEffect(() => {}, []);
 
   const handleAddButtonClick = () => {
     modal.setModal(<AddNote onSubmit={handleAddNoteSubmit} />);
@@ -55,7 +59,7 @@ export const NotesScreen = observer(() => {
             renderItem={({item}) => (
               <NoteCard
                 id={item.id}
-                valueable={item.valueable}
+                importance={item.importance}
                 description={item.description}
                 date={item.date}
               />
