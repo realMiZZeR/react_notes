@@ -1,6 +1,5 @@
 import React, {StrictMode} from 'react';
 import {ScreenNavigation} from './modules/ScreenNavigtation/ScreenNavigation.tsx';
-import {AuthProvider} from './modules/Auth/AuthProvider.tsx';
 import {NotificationsProvider} from './modules/Notification/NotificationsProvider.tsx';
 import {NotificationStore} from './modules/Notification/NotificationStore.ts';
 import {ModalProvider} from './modules/ModalWindow/ModalProvider.tsx';
@@ -14,9 +13,7 @@ const App = () => {
     <StrictMode>
       <NotificationsProvider store={notificationStore}>
         <ModalProvider store={modalStore}>
-          <AuthProvider>
-            <ScreenNavigation />
-          </AuthProvider>
+          <ScreenNavigation />
         </ModalProvider>
       </NotificationsProvider>
     </StrictMode>

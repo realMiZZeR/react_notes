@@ -1,27 +1,45 @@
-import React, {createContext, PropsWithChildren} from 'react';
-import {signIn} from './scripts/signIn.ts';
-import {signUp} from './scripts/signUp.ts';
-import {exit as exitScript} from './scripts/exit.ts';
-import {ISignInParams} from './interfaces/ISignInParams.ts';
+import React, {createContext, PropsWithChildren, useEffect} from 'react';
+import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
+import {useNavigation} from '@react-navigation/native';
 import {observer} from 'mobx-react';
+import {ISignInParams} from './interfaces/ISignInParams.ts';
 import {UserStore} from '../User/UserStore.ts';
+import {ISignUpParams} from 'modules/Auth/interfaces/ISignUpParams.ts';
+import {NavigationProp} from 'modules/ScreenNavigtation/NavigationProp.ts';
+import {signUp} from './scripts/signUp.ts';
+import {signIn} from 'modules/Auth/scripts/signIn.ts';
+import {signOut} from './scripts/signOut.ts';
 
 interface IAuthContext {
   user: UserStore;
-  authorize: (params: ISignInParams) => Promise<boolean>;
-  register: () => void;
-  exit: () => void;
+  signIn: (params: ISignInParams) => Promise<boolean>;
+  signUp: (params: ISignUpParams) => Promise<boolean>;
+  signOut: () => void;
 }
 
 export const AuthContext = createContext<IAuthContext | null>(null);
 
 export const AuthProvider = observer((props: PropsWithChildren) => {
-  const user: UserStore = new UserStore();
-  const authorize = signIn(user);
-  const register = signUp;
-  const exit = exitScript(user);
+  const navigation = useNavigation<NavigationProp>();
 
-  const value = {user, authorize, register, exit};
+  const userStore: UserStore = new UserStore();
+
+  // Подписка на авторизацию из firebase.
+  useEffect(() => {
+    const onAuthStateChanged = (user: FirebaseAuthTypes.User | null) => {
+      userStore.data = user;
+
+      if (user !== null) {
+        navigation.navigate('Notes');
+      }
+    };
+
+    const authSubscriber = auth().onAuthStateChanged(onAuthStateChanged);
+
+    return () => authSubscriber();
+  });
+
+  const value = {user: userStore, signIn, signUp, signOut};
 
   return (
     <AuthContext.Provider value={value}>{props.children}</AuthContext.Provider>

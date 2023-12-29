@@ -7,39 +7,52 @@ import {ISignInParams} from './interfaces/ISignInParams.ts';
 import {useNotifications} from '../Notification/NotificationsProvider.tsx';
 import {INotificationMessage} from '../Notification/interfaces/INotificationMessage.ts';
 import {Icons} from 'icons/Icons.ts';
+import {ISignUpParams} from 'modules/Auth/interfaces/ISignUpParams.ts';
 
-interface IAuthForm {
-  onSubmit?: () => void;
-}
+interface IAuthForm {}
 
 /**
  * Форма для авторизации пользователя.
  * @constructor
  */
-export const AuthForm = ({onSubmit}: IAuthForm) => {
-  const {authorize} = useAuth();
+export const AuthForm = ({}: IAuthForm) => {
+  const {signIn, signUp} = useAuth();
   const {store: notificationStore} = useNotifications();
 
-  const [login, setLogin] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleButtonPress = async () => {
-    const params: ISignInParams = {
-      login: login,
-      password: password,
-    };
+  const handleSignInButton = async () => {
+    const params: ISignInParams = {email, password};
 
-    const success: boolean = await authorize(params);
+    const success: boolean = await signIn(params);
 
     if (success) {
-      setLogin('');
+      setEmail('');
       setPassword('');
-      onSubmit?.();
       return;
     }
 
     const notificationMessage: INotificationMessage = {
-      text: 'Incorrect login or password.',
+      text: 'Incorrect email or password.',
+      type: 'alarm',
+    };
+    notificationStore.add(notificationMessage);
+  };
+
+  const handleSignUpButton = async () => {
+    const params: ISignUpParams = {email, password};
+
+    const success: boolean = await signUp(params);
+
+    if (success) {
+      setEmail('');
+      setPassword('');
+      return;
+    }
+
+    const notificationMessage: INotificationMessage = {
+      text: 'Incorrect email or password.',
       type: 'alarm',
     };
     notificationStore.add(notificationMessage);
@@ -49,9 +62,9 @@ export const AuthForm = ({onSubmit}: IAuthForm) => {
     <View style={styles.container}>
       <IconInput
         icon={<Icons.User size={18} fill={'#CAD0E4'} />}
-        text={login}
-        placeholder={'Логин'}
-        onChangeText={setLogin}
+        text={email}
+        placeholder={'E-mail'}
+        onChangeText={setEmail}
       />
       <IconInput
         icon={<Icons.Lock size={18} strokeColor={'#CAD0E4'} strokeWidth={2} />}
@@ -60,28 +73,43 @@ export const AuthForm = ({onSubmit}: IAuthForm) => {
         onChangeText={setPassword}
         isPassword={true}
       />
-      <IconButton
-        icon={<Icons.Enter size={18} strokeWidth={2} strokeColor={'#F9F9F9'} />}
-        text={'Войти'}
-        onPress={handleButtonPress}
-        style={{
-          button: styles.submitButton,
-        }}
-      />
+      <View style={styles.actions}>
+        <IconButton
+          icon={
+            <Icons.UserAdd size={20} strokeWidth={2} strokeColor={'#F9F9F9'} />
+          }
+          text={'Регистрация'}
+          onPress={handleSignUpButton}
+          style={{
+            button: styles.signUpButton,
+          }}
+        />
+        <IconButton
+          icon={
+            <Icons.Enter size={20} strokeWidth={2} strokeColor={'#F9F9F9'} />
+          }
+          text={'Войти'}
+          onPress={handleSignInButton}
+          style={{
+            button: styles.signInButton,
+          }}
+        />
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     justifyContent: 'flex-start',
-    maxHeight: 132,
     gap: 8,
     paddingHorizontal: 25,
   },
-  submitButton: {
-    width: 100,
-    marginLeft: 'auto',
+  actions: {
+    flexDirection: 'row',
+    gap: 10,
+    marginTop: 16,
   },
+  signUpButton: {},
+  signInButton: {},
 });

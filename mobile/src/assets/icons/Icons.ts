@@ -13,6 +13,7 @@ import SearchIcon from './SearchIcon/SearchIcon';
 import SunIcon from './SunIcon/SunIcon';
 import UserIcon from './UserIcon/UserIcon';
 import WarningIcon from './WarningIcon/WarningIcon';
+import {UserAddIcon} from 'icons/UserAddIcon/UserAddIcon.tsx';
 
 /**
  * Переменная для доступа ко всем иконкам приложения.
@@ -31,6 +32,7 @@ export const Icons = {
   Repeat: RepeatIcon,
   Search: SearchIcon,
   Sun: SunIcon,
+  UserAdd: UserAddIcon,
   User: UserIcon,
   Warning: WarningIcon,
 };

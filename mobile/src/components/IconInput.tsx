@@ -1,6 +1,6 @@
 import React, {useRef, useState} from 'react';
 import {Pressable, StyleSheet, TextInput, ViewStyle} from 'react-native';
-import {IIcon} from '../assets/icons/IIcon.ts';
+import {IIcon} from 'icons/IIcon.ts';
 
 interface IIconInput {
   text: string;
@@ -17,9 +17,15 @@ interface IIconInput {
 
 /**
  * Поле ввода с иконкой перед текстом (или в конце инпута, если задан определённый проп).
+ * @param icon
  * @param text
+ * @param style
  * @param onChangeText
  * @param placeholder
+ * @param isPassword
+ * @param multiline
+ * @param numberOfLines
+ * @param isIconPlaceRight
  * @constructor
  */
 export const IconInput = ({
@@ -81,7 +87,7 @@ export const IconInput = ({
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    // flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,

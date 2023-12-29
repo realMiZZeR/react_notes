@@ -21,7 +21,7 @@ interface IUserBar {
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 export const UserBar = observer(({}: IUserBar) => {
-  const {user, exit} = useAuth();
+  const {user, signOut} = useAuth();
   const navigation = useNavigation<NavigationProp>();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -31,7 +31,7 @@ export const UserBar = observer(({}: IUserBar) => {
   };
 
   const handleExitButton = () => {
-    exit();
+    signOut();
     navigation.navigate('Auth');
   };
 
@@ -42,7 +42,7 @@ export const UserBar = observer(({}: IUserBar) => {
       style={styles.container}>
       <UserBarTab
         image={<Image style={styles.userImage} />}
-        text={user.data?.login ?? ''}
+        text={user.data?.email ?? ''}
         textStyle={styles.userText}
       />
       {isOpen && (

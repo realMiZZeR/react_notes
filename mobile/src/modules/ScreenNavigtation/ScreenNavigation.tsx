@@ -7,6 +7,7 @@ import {
 import {AuthScreen} from '../Auth/AuthScreen.tsx';
 import {StyleSheet} from 'react-native';
 import {NotesScreen} from '../Notes/NotesScreen.tsx';
+import {AuthProvider} from 'modules/Auth/AuthProvider.tsx';
 
 const Stack = createNativeStackNavigator();
 
@@ -22,10 +23,14 @@ export const ScreenNavigation = () => {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName={'Auth'} screenOptions={screenOptions}>
-        <Stack.Screen name={'Auth'} component={AuthScreen} />
-        <Stack.Screen name={'Notes'} component={NotesScreen} />
-      </Stack.Navigator>
+      <AuthProvider>
+        <Stack.Navigator
+          initialRouteName={'Auth'}
+          screenOptions={screenOptions}>
+          <Stack.Screen name={'Auth'} component={AuthScreen} />
+          <Stack.Screen name={'Notes'} component={NotesScreen} />
+        </Stack.Navigator>
+      </AuthProvider>
     </NavigationContainer>
   );
 };

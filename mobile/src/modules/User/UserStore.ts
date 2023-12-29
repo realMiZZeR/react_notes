@@ -1,33 +1,22 @@
 import {makeObservable} from 'mobx';
-import {IUserData} from './IUserData.ts';
-
-// Объект пустышка для пользователя.
-const DefaultUser: IUserData = {
-  id: '',
-  token: '',
-  login: '',
-};
+import {FirebaseAuthTypes} from '@react-native-firebase/auth';
 
 /**
  * Хранилище данных пользователя. Используется в модуле авторизации.
  */
 export class UserStore {
-  private _data: IUserData | null;
+  private _data: FirebaseAuthTypes.User | null;
+
   constructor() {
-    this._data = {...DefaultUser};
+    this._data = null;
     makeObservable(this);
   }
 
-  get data(): IUserData | null {
+  get data(): FirebaseAuthTypes.User | null {
     return this._data;
   }
 
-  set data(value: IUserData | null) {
-    if (value === null) {
-      console.log('set data value is null in user store');
-      return;
-    }
-
+  set data(value: FirebaseAuthTypes.User | null) {
     this._data = value;
   }
 
