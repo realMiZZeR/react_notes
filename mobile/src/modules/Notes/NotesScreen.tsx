@@ -1,77 +1,48 @@
-import React, {useEffect, useState} from 'react';
-import {FlatList, SafeAreaView, StyleSheet, Text, View} from 'react-native';
-import firestore from '@react-native-firebase/firestore';
+import React, {useEffect} from 'react';
+import {SafeAreaView, StyleSheet, View} from 'react-native';
 import {observer} from 'mobx-react';
 import {IconButton} from 'components/IconButton.tsx';
 import {IconInput} from 'components/IconInput.tsx';
 import {Icons} from 'icons/Icons.ts';
 import {UserBar} from '../User/UserBar/UserBar.tsx';
-import {NoteCard} from './NoteCard/NoteCard';
 import {useModal} from '../ModalWindow/ModalProvider';
 import {AddNote} from './AddNote/AddNote';
-import {NotesStore} from './NoteCard/NotesStore';
-import {IFormData} from './AddNote/IFormData';
+import {NotesStore} from './NotesStore.ts';
+import {NotesList} from 'modules/Notes/NotesList/NotesList.tsx';
+import {useAuth} from 'modules/Auth/hooks/useAuth.ts';
 
 const notesStore = new NotesStore();
 
 export const NotesScreen = observer(() => {
   const modal = useModal();
-  const [notes, setNotes] = useState([]);
+  const {user} = useAuth();
 
+  // Извлечение записей с сервера.
   useEffect(() => {
-    console.log(notesStore.fetch());
-  });
-
-  const handleAddNoteSubmit = (data: IFormData) => {
-    console.log('handle submit');
-    notesStore.add({
-      id: Number(Date.now()),
-      description: data.description,
-      importance: data.valuable,
-      date: data.date,
-    });
-    modal.close();
-  };
+    notesStore.setUserId(user.data?.uid ?? '');
+    notesStore.fetch();
+  }, [user.data]);
 
   const handleAddButtonClick = () => {
-    modal.setModal(<AddNote onSubmit={handleAddNoteSubmit} />);
+    modal.setModal(
+      <AddNote
+        notesStore={notesStore}
+        userStore={user}
+        onSubmit={() => modal.close()}
+      />,
+    );
   };
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headWrapper}>
         <View style={styles.head}>
-          <UserBar imageUrl={''} username={'aboba'} />
-          <IconButton
-            style={{button: {maxWidth: 40}}}
-            icon={<Icons.Sun />}
-            onPress={() => console.log('aboba')}
-          />
+          <UserBar imageUrl={''} username={''} />
         </View>
       </View>
 
       <View style={styles.listWrapper}>
-        {notesStore.notes.length === 0 ? (
-          <Text style={{color: '#FFF'}}>Пока что здесь нет никаких задач.</Text>
-        ) : (
-          <FlatList
-            data={notesStore.notes}
-            renderItem={({item}) => (
-              <NoteCard
-                id={item.id}
-                importance={item.importance}
-                description={item.description}
-                date={item.date}
-              />
-            )}
-            keyExtractor={item => String(item.id)}
-            contentContainerStyle={{
-              gap: 8,
-            }}
-            showsVerticalScrollIndicator={false}
-            showsHorizontalScrollIndicator={false}
-          />
-        )}
+        <NotesList notesStore={notesStore} />
       </View>
 
       <View style={styles.actions}>
@@ -119,6 +90,7 @@ const styles = StyleSheet.create({
   headWrapper: {
     alignSelf: 'flex-start',
     marginTop: 12,
+    zIndex: 10,
   },
   head: {
     position: 'absolute',

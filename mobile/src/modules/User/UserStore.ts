@@ -20,11 +20,7 @@ export class UserStore {
     this._data = value;
   }
 
-  /**
-   * Полностью стирает данные о пользователя из хранилища.
-   */
   clear() {
-    console.log('user data cleared');
     this._data = null;
   }
 }

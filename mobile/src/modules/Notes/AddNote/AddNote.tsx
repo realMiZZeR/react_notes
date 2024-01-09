@@ -1,23 +1,53 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {IconInput} from 'components/IconInput.tsx';
 import {NoteImportance} from '../NoteCard/NoteImportance.ts';
 import {IconButton} from 'components/IconButton.tsx';
 import {FontsEnum} from '../../../constants/FontsEnum.ts';
-import {IFormData} from './IFormData.ts';
 import {Icons} from 'icons/Icons.ts';
+import {INote} from 'modules/Notes/NoteCard/INote.ts';
+import {Timestamp} from '@react-native-firebase/firestore/lib/modular/Timestamp';
+import {NotesStore} from 'modules/Notes/NotesStore.ts';
+import {UserStore} from 'modules/User/UserStore.ts';
 
 interface IAddNote {
-  onSubmit?: (data: IFormData) => void;
+  notesStore: NotesStore;
+  userStore: UserStore;
+  onSubmit?: () => void;
+  initialData?: INote;
+  isEdit?: boolean;
 }
 
-export const AddNote = ({onSubmit}: IAddNote) => {
-  const [formData, setFormData] = useState<IFormData>({
+export const AddNote = ({
+  notesStore,
+  userStore,
+  onSubmit,
+  initialData,
+  isEdit,
+}: IAddNote) => {
+  const [formData, setFormData] = useState<INote>({
+    id: '0',
+    userId: userStore.data?.uid ?? '',
     description: '',
-    valuable: 'common',
-    date: new Date(),
+    importance: 'common',
+    date: Timestamp.now(),
     repeat: false,
   });
+
+  useEffect(() => {
+    if (!initialData) {
+      return;
+    }
+
+    setFormData({
+      id: initialData.id,
+      userId: userStore.data?.uid ?? '',
+      description: initialData.description,
+      importance: initialData.importance,
+      date: initialData.date,
+      repeat: initialData.repeat,
+    });
+  }, [userStore.data, initialData]);
 
   const handleDescriptionInput = (value: string) => {
     setFormData({
@@ -26,10 +56,10 @@ export const AddNote = ({onSubmit}: IAddNote) => {
     });
   };
 
-  const handleValuableButton = (value: NoteImportance) => {
+  const handleImportanceButton = (value: NoteImportance) => {
     setFormData({
       ...formData,
-      valuable: value,
+      importance: value,
     });
   };
 
@@ -44,8 +74,9 @@ export const AddNote = ({onSubmit}: IAddNote) => {
     });
   };
 
-  const handleCreateButton = () => {
-    onSubmit?.(formData);
+  const onSubmitButton = () => {
+    notesStore.add(formData);
+    onSubmit?.();
   };
 
   return (
@@ -64,10 +95,10 @@ export const AddNote = ({onSubmit}: IAddNote) => {
         <IconButton
           icon={<Icons.Warning size={24} fill={'#CAD0E4'} />}
           text={'важная'}
-          onPress={() => handleValuableButton('important')}
+          onPress={() => handleImportanceButton('important')}
           style={{
             button:
-              formData.valuable === 'important'
+              formData.importance === 'important'
                 ? styles.valuableButton
                 : styles.valuableButtonInactive,
             text: styles.valuableText,
@@ -76,10 +107,10 @@ export const AddNote = ({onSubmit}: IAddNote) => {
         <IconButton
           icon={<Icons.Note size={24} fill={'#CAD0E4'} />}
           text={'обычная'}
-          onPress={() => handleValuableButton('common')}
+          onPress={() => handleImportanceButton('common')}
           style={{
             button:
-              formData.valuable === 'common'
+              formData.importance === 'common'
                 ? styles.valuableButton
                 : styles.valuableButtonInactive,
             text: styles.valuableText,
@@ -90,7 +121,7 @@ export const AddNote = ({onSubmit}: IAddNote) => {
       <View style={styles.settings}>
         <IconButton
           icon={<Icons.Clock size={16} strokeColor={'#CAD0E4'} />}
-          text={formData.date.toLocaleTimeString()}
+          text={formData.date.toDate().toLocaleTimeString()}
           onPress={handleTimeButton}
           style={{
             button: styles.settingsButton,
@@ -100,7 +131,7 @@ export const AddNote = ({onSubmit}: IAddNote) => {
         />
         <IconButton
           icon={<Icons.Calendar size={16} strokeColor={'#CAD0E4'} />}
-          text={formData.date.toLocaleDateString()}
+          text={formData.date.toDate().toLocaleDateString()}
           onPress={handleDateButton}
           style={{
             button: styles.settingsButton,
@@ -120,13 +151,23 @@ export const AddNote = ({onSubmit}: IAddNote) => {
         />
       </View>
 
-      <IconButton
-        text={'Создать'}
-        onPress={handleCreateButton}
-        style={{
-          button: styles.saveButton,
-        }}
-      />
+      {isEdit ? (
+        <IconButton
+          text={'Редактировать'}
+          onPress={onSubmitButton}
+          style={{
+            button: styles.saveButton,
+          }}
+        />
+      ) : (
+        <IconButton
+          text={'Создать'}
+          onPress={onSubmitButton}
+          style={{
+            button: styles.saveButton,
+          }}
+        />
+      )}
     </View>
   );
 };

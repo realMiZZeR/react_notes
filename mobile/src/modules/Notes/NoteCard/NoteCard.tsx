@@ -12,39 +12,42 @@ import {IconButton} from 'components/IconButton.tsx';
 import {INote} from './INote.ts';
 import {Icons} from 'icons/Icons.ts';
 
-interface INoteCard extends INote {
-  onEdit?: () => void;
-  onDelete?: () => void;
+interface INoteCard {
+  data: INote;
+  onEdit?: (data: INote) => void;
+  onDelete?: (id: string) => void;
   onNotePress?: () => void;
 }
 
-export const NoteCard = ({
-  importance,
-  description,
-  date,
-  onDelete,
-  onEdit,
-  onNotePress,
-}: INoteCard) => {
+export const NoteCard = ({data, onDelete, onEdit, onNotePress}: INoteCard) => {
   const [isActionShown, setIsActionShown] = useState(false);
 
-  const handleCardPress = (e: GestureResponderEvent) => {
+  const onCardLongPress = (e: GestureResponderEvent) => {
     e.stopPropagation();
-    console.log('long press');
     onNotePress?.();
     setIsActionShown(prev => !prev);
+  };
+
+  const onEditButton = () => {
+    onEdit?.(data);
+  };
+
+  const onDeleteButton = () => {
+    onDelete?.(data.id);
   };
 
   return (
     <View
       style={
-        importance === 'important' ? {...styles.container} : styles.container
+        data.importance === 'important'
+          ? {...styles.container}
+          : styles.container
       }>
       <Pressable
         delayLongPress={300}
-        onLongPress={handleCardPress}
+        onLongPress={onCardLongPress}
         style={styles.card}>
-        {importance === 'important' ? (
+        {data.importance === 'important' ? (
           <Icons.Warning size={30} fill={'#CAD0E4'} />
         ) : (
           <Icons.Note size={30} fill={'#CAD0E4'} />
@@ -55,21 +58,17 @@ export const NoteCard = ({
             numberOfLines={1}
             ellipsizeMode={'tail'}
             style={styles.description}>
-            {description}
+            {data.description}
           </Text>
           <View style={styles.details}>
             <NoteDetail
               icon={<Icons.Clock size={12} strokeColor={'#CAD0E4'} />}
-              text={date.toLocaleTimeString()}
+              text={data.date.toDate().toLocaleTimeString()}
               color={'#CAD0E4'}
             />
             <NoteDetail
               icon={<Icons.Calendar size={12} strokeColor={'#CAD0E4'} />}
-              text={date.toLocaleDateString('ru-RU', {
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit',
-              })}
+              text={data.date.toDate().toLocaleDateString()}
               color={'#CAD0E4'}
             />
           </View>
@@ -81,7 +80,7 @@ export const NoteCard = ({
           <IconButton
             text={'Удалить'}
             icon={<Icons.Delete size={24} strokeColor={'#CAD0E4'} />}
-            onPress={onDelete}
+            onPress={onDeleteButton}
             style={{
               button: styles.actionButton,
             }}
@@ -89,7 +88,7 @@ export const NoteCard = ({
           <IconButton
             text={'Редактировать'}
             icon={<Icons.Edit size={24} strokeColor={'#CAD0E4'} />}
-            onPress={onEdit}
+            onPress={onEditButton}
             style={{
               button: styles.actionButton,
             }}
