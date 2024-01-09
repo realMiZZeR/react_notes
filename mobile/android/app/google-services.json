@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "816797720177",
+    "project_id": "reactnotes-e0f4a",
+    "storage_bucket": "reactnotes-e0f4a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:816797720177:android:faaee85c5067271aee45d0",
+        "android_client_info": {
+          "package_name": "com.mobile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC13TvAFNHCaiYhyGRzUt4xmz4-wV9ysfQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
