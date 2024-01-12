@@ -174,8 +174,10 @@ export const AddNote = ({
 
 const styles = StyleSheet.create({
   container: {
+    paddingVertical: 32,
+    paddingHorizontal: 10,
     gap: 12,
-    height: '100%',
+    backgroundColor: '#0F0A21',
   },
   descriptionInput: {
     minHeight: 80,

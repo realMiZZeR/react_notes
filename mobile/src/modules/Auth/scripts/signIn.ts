@@ -1,7 +1,6 @@
 import auth from '@react-native-firebase/auth';
-import {ISignInParams} from '../interfaces/ISignInParams.ts';
-
-export const signIn = async ({email, password}: ISignInParams) => {
+import {IAuthParams} from 'modules/Auth/interfaces/IAuthParams.ts';
+export const signIn = async ({email, password}: IAuthParams) => {
   try {
     await auth().signInWithEmailAndPassword(email, password);
     console.log(`User ${email} has joined.`);

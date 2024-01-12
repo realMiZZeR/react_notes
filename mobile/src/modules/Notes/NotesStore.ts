@@ -16,17 +16,11 @@ export class NotesStore {
     makeAutoObservable(this);
   }
 
-  setUserId(userId: string) {
-    this._userId = userId;
-  }
-
   add(note: INote) {
     firestore()
       .collection('Notes')
       .add(note)
-      .then(() => {
-        this.fetch();
-      });
+      .then(() => this.internalFetch());
   }
 
   edit(note: INote) {
@@ -34,9 +28,7 @@ export class NotesStore {
       .collection('Notes')
       .doc(note.id)
       .update(note)
-      .then(() => {
-        this.fetch();
-      });
+      .then(() => this.internalFetch());
   }
 
   remove(id: string) {
@@ -44,29 +36,34 @@ export class NotesStore {
       .collection('Notes')
       .doc(id)
       .delete()
-      .then(() => this.fetch());
+      .then(() => this.internalFetch());
   }
 
-  async fetch() {
+  async fetch(userId: string) {
     this.setIsLoading(true);
+    this._userId = userId;
     this.notes = [];
 
-    const collection = await firestore()
-      .collection('Notes')
-      .where('userId', '==', this._userId)
-      .get();
+    try {
+      const collection = await firestore()
+        .collection('Notes')
+        .where('userId', '==', this._userId)
+        .get();
 
-    collection.docs.forEach(doc => {
-      const data = doc.data() as INote;
-      const note: INote = {
-        ...data,
-        id: doc.id,
-      };
+      collection.docs.forEach(doc => {
+        const data = doc.data() as INote;
+        const note: INote = {
+          ...data,
+          id: doc.id,
+        };
 
-      this.fill(note);
-    });
-
-    this.setIsLoading(false);
+        this.fill(note);
+      });
+    } catch (err) {
+      console.error(`NotesStore.fetch(${userId}) error: ${err}`);
+    } finally {
+      this.setIsLoading(false);
+    }
   }
 
   private fill(note: INote) {
@@ -75,5 +72,12 @@ export class NotesStore {
 
   private setIsLoading(value: boolean) {
     this.isLoading = value;
+  }
+
+  private async internalFetch() {
+    if (!this._userId) {
+      return;
+    }
+    await this.fetch(this._userId);
   }
 }

@@ -4,76 +4,61 @@ import {observer} from 'mobx-react';
 import {NoteCard} from 'modules/Notes/NoteCard/NoteCard.tsx';
 import {NotesStore} from 'modules/Notes/NotesStore.ts';
 import {FontsEnum} from '../../../constants/FontsEnum.ts';
-import {useModal} from 'modules/ModalWindow/ModalProvider.tsx';
-import {AddNote} from 'modules/Notes/AddNote/AddNote.tsx';
 import {INote} from 'modules/Notes/NoteCard/INote.ts';
-import {useAuth} from 'modules/Auth/hooks/useAuth.ts';
 
 interface INotesList {
   notesStore: NotesStore;
+  onPressEditNote?: (data: INote) => void;
+  onPressDeleteNote?: (id: string) => void;
 }
 
-export const NotesList = observer(({notesStore}: INotesList) => {
-  const modal = useModal();
-  const {user} = useAuth();
+// Компонент-обёртка для текста.
+const StateText = ({text}: {text: string}) => {
+  return <Text style={styles.stateText}>{text}</Text>;
+};
 
-  const onNoteEditButton = (data: INote) => {
-    modal.setModal(
-      <AddNote
-        notesStore={notesStore}
-        userStore={user}
-        initialData={data}
-        isEdit={true}
-        onSubmit={() => modal.close()}
-      />,
-    );
-  };
+export const NotesList = observer(
+  ({notesStore, onPressEditNote, onPressDeleteNote}: INotesList) => {
+    const onNoteEditButton = (data: INote) => {
+      onPressEditNote?.(data);
+    };
 
-  const onNoteDeleteButton = (id: string) => {
-    notesStore.remove(id);
-  };
+    const onNoteDeleteButton = (id: string) => {
+      onPressDeleteNote?.(id);
+    };
 
-  const Loading = () => {
-    return <Text style={styles.stateText}>Загрузка записей...</Text>;
-  };
+    const AllNotes = () => {
+      return (
+        <FlatList
+          data={notesStore.notes}
+          renderItem={({item}) => (
+            <NoteCard
+              data={item}
+              onEdit={onNoteEditButton}
+              onDelete={onNoteDeleteButton}
+            />
+          )}
+          keyExtractor={item => String(item.id)}
+          contentContainerStyle={{
+            gap: 8,
+          }}
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
+        />
+      );
+    };
 
-  const NoNotes = () => {
-    return (
-      <Text style={styles.stateText}>Пока что здесь нет никаких задач.</Text>
-    );
-  };
+    if (notesStore.isLoading) {
+      return <StateText text={'Загрузка записей...'} />;
+    }
 
-  const AllNotes = () => {
-    return (
-      <FlatList
-        data={notesStore.notes}
-        renderItem={({item}) => (
-          <NoteCard
-            data={item}
-            onEdit={onNoteEditButton}
-            onDelete={onNoteDeleteButton}
-          />
-        )}
-        keyExtractor={item => String(item.id)}
-        contentContainerStyle={{
-          gap: 8,
-        }}
-        showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false}
-      />
-    );
-  };
+    if (notesStore.notes.length === 0) {
+      return <StateText text={'Пока что здесь нет никаких задач.'} />;
+    }
 
-  if (notesStore.isLoading) {
-    return <Loading />;
-  }
-
-  if (notesStore.notes.length === 0) {
-    return <NoNotes />;
-  }
-
-  return <AllNotes />;
-});
+    return <AllNotes />;
+  },
+);
 
 const styles = StyleSheet.create({
   stateText: {

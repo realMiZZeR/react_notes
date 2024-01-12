@@ -1,4 +1,4 @@
-export interface ISignUpParams {
+export interface IAuthParams {
   email: string;
   password: string;
 }

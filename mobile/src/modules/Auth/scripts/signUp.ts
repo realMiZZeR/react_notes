@@ -1,7 +1,7 @@
 import auth from '@react-native-firebase/auth';
-import {ISignUpParams} from 'modules/Auth/interfaces/ISignUpParams.ts';
+import {IAuthParams} from 'modules/Auth/interfaces/IAuthParams.ts';
 
-export const signUp = async ({email, password}: ISignUpParams) => {
+export const signUp = async ({email, password}: IAuthParams) => {
   try {
     const createdData = await auth().createUserWithEmailAndPassword(
       email,

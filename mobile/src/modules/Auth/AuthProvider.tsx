@@ -2,9 +2,8 @@ import React, {createContext, PropsWithChildren, useEffect} from 'react';
 import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import {useNavigation} from '@react-navigation/native';
 import {observer} from 'mobx-react';
-import {ISignInParams} from './interfaces/ISignInParams.ts';
 import {UserStore} from '../User/UserStore.ts';
-import {ISignUpParams} from 'modules/Auth/interfaces/ISignUpParams.ts';
+import {IAuthParams} from 'modules/Auth/interfaces/IAuthParams.ts';
 import {NavigationProp} from 'modules/ScreenNavigtation/NavigationProp.ts';
 import {signUp} from './scripts/signUp.ts';
 import {signIn} from 'modules/Auth/scripts/signIn.ts';
@@ -12,8 +11,8 @@ import {signOut} from './scripts/signOut.ts';
 
 interface IAuthContext {
   user: UserStore;
-  signIn: (params: ISignInParams) => Promise<boolean>;
-  signUp: (params: ISignUpParams) => Promise<boolean>;
+  signIn: (params: IAuthParams) => Promise<boolean>;
+  signUp: (params: IAuthParams) => Promise<boolean>;
   signOut: () => void;
 }
 
