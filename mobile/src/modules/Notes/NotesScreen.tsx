@@ -57,6 +57,7 @@ export const NotesScreen = observer(() => {
           userStore={user}
           onSubmit={disableAddModal}
           initialData={initialDataModal}
+          isEdit={initialDataModal !== undefined}
         />
       </CustomModal>
 
@@ -72,6 +73,9 @@ export const NotesScreen = observer(() => {
           onPressEditNote={data => {
             setInitialDataModal(data);
             enableAddModal();
+          }}
+          onPressDeleteNote={id => {
+            notesStore.remove(id);
           }}
         />
       </View>

@@ -75,7 +75,12 @@ export const AddNote = ({
   };
 
   const onSubmitButton = () => {
-    notesStore.add(formData);
+    if (isEdit) {
+      notesStore.edit(formData);
+    } else {
+      notesStore.add(formData);
+    }
+
     onSubmit?.();
   };
 
